@@ -6,7 +6,9 @@ School project, exploring interaction possibilities of reading text with eye tra
 
 You will need to have [PyGaze](http://www.pygaze.org/installation/) installed.
 
-This code is developed on Fedora 36. Unfortunately you need at most Python 3.9.15 - I had to downgrade.
+This code is developed on Fedora 36. 
+
+Unfortunately, to install all the dependencies of PyGaze, you need at most Python 3.9.15 - I had to downgrade.
 To do that, I installed a parallel installation of python3.9 with 
 `sudo dnf install python3.9`
 and then use it to create a virtual environment:
