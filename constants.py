@@ -6,6 +6,7 @@ TRIALS = 1
 SCREENNR = 0 # number of the screen used for displaying experiment
 DISPTYPE = 'pygame' # either 'psychopy' or 'pygame'
 DISPSIZE = (1920,1080) # canvas size
+#DISPSIZE = (1366,768)
 MOUSEVISIBLE = True # mouse visibility
 BGC = (125,125,125) # backgroundcolour
 FGC = (0,0,0) # foregroundcolour

@@ -13,15 +13,18 @@ from classes import Animation
 from classes import AreaOfInterest
 from classes import Hit
 from classes import SoundEffect
+from PyTribe.pytribe import *
+
 
 # set up objects
 keyboard = Keyboard()
 disp = Display()
 screen = Screen()
 blankscreen = Screen()
-eyetracker = EyeTracker(disp)
-
-eyetracker.calibrate()
+#eyetracker = EyeTracker(disp)
+# Eyetribe
+eyetracker = EyeTribe()
+#eyetracker.calibrate()
 
 background_image = pygame.image.load('cafeteria.png')
 
@@ -55,6 +58,8 @@ coffee_sprites.append(pygame.image.load('anim/coffee_anim/10.png'))
 playing_anim = False
 
 # register and define all the areas of interest used
+# the values are hard-coded at the moment. Modify according to the display size used.
+# see objects.txt for different resolutions
 registered_objects = []
 registered_objects.append(
 	AreaOfInterest(
@@ -65,32 +70,32 @@ registered_objects.append(
 )
 registered_objects.append(
 	AreaOfInterest(
-		top_pos_x=1031,top_pos_y=279,
-		bot_pos_x=1112,bot_pos_y=463,
+		top_pos_x=743,top_pos_y=173,
+		bot_pos_x=850,bot_pos_y=300,
 		name="Coffee",
-		animation=Animation(spritesheet=coffee_sprites, frequency=8, position=(1100,300), screen=screen)
+		animation=Animation(spritesheet=coffee_sprites, frequency=8, position=(820,140), screen=screen)
 	)
 )
 registered_objects.append(
 	AreaOfInterest(
-		top_pos_x=1157,top_pos_y=244,
-		bot_pos_x=1294,bot_pos_y=378,
+		top_pos_x=892,top_pos_y=104,
+		bot_pos_x=1002,bot_pos_y=212,
 		name="Music", 
 		sound=SoundEffect(volume=0.7, track="sounds/City-Life.mp3")
 	)
 )
 registered_objects.append(
 	AreaOfInterest(
-		top_pos_x=702,top_pos_y=508,
-		bot_pos_x=1012,bot_pos_y=848,
+		top_pos_x=454,top_pos_y=378,
+		bot_pos_x=765,bot_pos_y=654,
 		name="People", 
 		sound=SoundEffect(volume=0.5, track="sounds/people.mp3")
 	)
 )
 registered_objects.append(
 	AreaOfInterest(
-		top_pos_x=450,top_pos_y=154,
-		bot_pos_x=684,bot_pos_y=648,
+		top_pos_x=172,top_pos_y=70,
+		bot_pos_x=407,bot_pos_y=485,
 		name="Street", 
 		sound=SoundEffect(volume=0.5, track="sounds/street.mp3")
 	)
@@ -124,7 +129,7 @@ while keyboard.get_key()[0] == None:
 	### 	print(gazepos)
 
 	for obj in registered_objects:
-		if (gazepos[0] in range(obj.topleft[0], obj.bottomright[0])) and (gazepos[1] in range(obj.topleft[1], obj.bottomright[1])):
+		if (int(gazepos[0]) in range(obj.topleft[0], obj.bottomright[0])) and (int(gazepos[1]) in range(obj.topleft[1], obj.bottomright[1])):
 			if current_hit.area.name != obj.name:
 				### DEBUG: print(f"Hit {obj.name}")
 				current_hit = Hit(area=obj, start_time=current_time)
