@@ -1,3 +1,5 @@
+import os.path
+
 # MAIN
 DUMMYMODE = True # False for gaze contingent display, True for dummy mode (using mouse or joystick)
 TRIALS = 1
@@ -26,3 +28,12 @@ SACCACCTHRESH = 9500 # degrees per second, saccade acceleration threshold
 SMIIP = '127.0.0.1'
 SMISENDPORT = 4444
 SMIRECEIVEPORT = 5555
+
+
+
+# analysis
+DIR = os.path.dirname(__file__)
+DATADIR = os.path.join(DIR, 'data')
+IMGDIR = os.path.join(DIR, 'instructions.txt')
+LOGFILENAME = input("Participant name: ")
+LOGFILE = os.path.join(DATADIR, LOGFILENAME)

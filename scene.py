@@ -3,8 +3,13 @@ from constants import *
 
 from pygaze.eyetracker import EyeTracker
 from pygaze.libinput import Keyboard
+import pdb
 from pygaze.libscreen import Display 
 from pygaze.libscreen import Screen
+from pygaze.liblog import Logfile
+
+from PyGazeAnalyser.pygazeanalyser.edfreader import read_edf
+from PyGazeAnalyser.pygazeanalyser.gazeplotter import draw_fixations, draw_heatmap, draw_scanpath, draw_raw
 
 from classes import Hit
 from classes import GameController
@@ -21,6 +26,10 @@ eyetracker = EyeTracker(disp)
 #eyetracker = EyeTribe()
 eyetracker.calibrate()
 
+# output
+log = Logfile()
+#log.write(["starttime","endtime","duration","endx","endy"])
+
 gazepos = [0,0]
 last_collision = None
 clock = pygame.time.Clock()
@@ -36,7 +45,10 @@ gc = GameController(keyboard=keyboard, display=disp, screen=screen, eyetracker=e
 
 current_hit = Hit(area=gc.registered_objects[0], start_time=0)
 
-eyetracker.start_recording()
+#eyetracker.start_recording()
+#eyetracker.log("TRIALSTART")
+#eyetracker.log(f"IMAGENAME {images[trialnr]}")
+#eyetracker.status_msg(f"trial {trialnr+1}/{nrtrials}")
 while gc.running:
 	gc.process_control(keyboard.get_key())
 	screen.draw_image(gc.background_image)
@@ -73,7 +85,7 @@ while gc.running:
 			current_hit = Hit(area=gc.registered_objects[0], start_time=0)
 			### DEBUG: in case we decide to stop the animations
 			### print("Stopping animation.")
-			gc.pause_all()
+			gc.stop_all()
 			### mixer.Channel(0).pause()
 			### mixer.Channel(1).pause()
 			### mixer.Channel(2).pause()
@@ -87,5 +99,25 @@ while gc.running:
 	disp.show()
 	screen.clear()
 
-eyetracker.stop_recording()
-eyetracker.close()
+#eyetracker.log("TRIALEND")
+
+#eyetracker.stop_recording()
+
+#screen.clear()
+#screen.draw_text(text="Transferring the data file...")
+#disp.fill(screen)
+#disp.show()
+
+#eyetracker.close()
+#log.close()
+
+#edfdata = read_edf(f"{LOGFILE}.txt", start="TRIALSTART", stop="TRIALEND", missing=0.0, debug=False)
+#pdb.set_trace()
+
+#screen.clear()
+#screen.draw_text(text="This is the end.")
+#disp.fill(screen)
+#disp.show()
+
+#keyboard.get_key(keylist=None, timeout=None, flush=True)
+#disp.close()
