@@ -8,8 +8,8 @@ from pygaze.libscreen import Display
 from pygaze.libscreen import Screen
 from pygaze.liblog import Logfile
 
-from PyGazeAnalyser.pygazeanalyser.edfreader import read_edf
-from PyGazeAnalyser.pygazeanalyser.gazeplotter import draw_fixations, draw_heatmap, draw_scanpath, draw_raw
+#from PyGazeAnalyser.pygazeanalyser.edfreader import read_edf
+#from PyGazeAnalyser.pygazeanalyser.gazeplotter import draw_fixations, draw_heatmap, draw_scanpath, draw_raw
 
 from classes import Hit
 from classes import GameController
@@ -27,7 +27,7 @@ eyetracker = EyeTracker(disp)
 eyetracker.calibrate()
 
 # output
-log = Logfile()
+#log = Logfile()
 #log.write(["starttime","endtime","duration","endx","endy"])
 
 gazepos = [0,0]
@@ -35,13 +35,9 @@ last_collision = None
 clock = pygame.time.Clock()
 start_time = pygame.time.get_ticks()
 old_diff = 0
-playing = False
-playing_music = False
-playing_people = False
-playing_street = False
 
 
-gc = GameController(keyboard=keyboard, display=disp, screen=screen, eyetracker=eyetracker, scene_name="1")
+gc = GameController(keyboard=keyboard, display=disp, screen=screen, eyetracker=eyetracker, scenario_name="cafeteria")
 
 current_hit = Hit(area=gc.registered_objects[0], start_time=0)
 
@@ -86,12 +82,6 @@ while gc.running:
 			### DEBUG: in case we decide to stop the animations
 			### print("Stopping animation.")
 			gc.stop_all()
-			### mixer.Channel(0).pause()
-			### mixer.Channel(1).pause()
-			### mixer.Channel(2).pause()
-			### playing_people = False
-			### playing_street = False
-			### playing_anim = False
 
     # draw crosshair
 	screen.draw_circle(colour=FGC, pos=gazepos, r=13, pw=2, fill=False)
@@ -112,7 +102,6 @@ while gc.running:
 #log.close()
 
 #edfdata = read_edf(f"{LOGFILE}.txt", start="TRIALSTART", stop="TRIALEND", missing=0.0, debug=False)
-#pdb.set_trace()
 
 #screen.clear()
 #screen.draw_text(text="This is the end.")

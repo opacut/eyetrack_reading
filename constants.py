@@ -35,5 +35,5 @@ SMIRECEIVEPORT = 5555
 DIR = os.path.dirname(__file__)
 DATADIR = os.path.join(DIR, 'data')
 IMGDIR = os.path.join(DIR, 'instructions.txt')
-LOGFILENAME = input("Participant name: ")
-LOGFILE = os.path.join(DATADIR, LOGFILENAME)
+#LOGFILENAME = input("Participant name: ")
+#LOGFILE = os.path.join(DATADIR, LOGFILENAME)

@@ -71,7 +71,7 @@ class Animation:
 		self.run()
 
 class GameController:
-	def __init__(self, keyboard, display, screen, eyetracker, scene_name):
+	def __init__(self, keyboard, display, screen, eyetracker, scenario_name):
 		mixer.init()
 		mixer.set_num_channels(10)
 		self.keyboard = keyboard
@@ -79,24 +79,29 @@ class GameController:
 		self.screen = screen
 		self.eyetracker = eyetracker
 		self.freeChannels = [0,1,2,3,4,5,6,7,8,9]
-		self.load_scene(name=scene_name)
+		self.scenario_name = scenario_name
+		self.load_scene(name=None)
 		self.running = True
-		#self.current_scene = None
 		self.background_path = None
 
 	
 	def process_control(self, key):
-		if key[0] != None:
-			print(key)
+		### DEBUG
+		### if key[0] != None:
+		### 	print(key)
 		if key[0] == 'space':
 			self.stop_all()
-			if self.current_scene == "8":
-				self.load_scene(name="1")
-			else:
-				new_scene_number = int(self.current_scene)+1
-				self.load_scene(name=str(new_scene_number))
+			self.next_scene()
 		if key[0] == 'escape':
 			self.running = False
+
+	def next_scene(self):
+		if self.scenario_name=="komix":
+			if self.current_scene == "komix_8":
+				self.load_scene(name="komix_1")
+			else:
+				new_scene_number = int(self.current_scene.split("_")[1])+1
+				self.load_scene(name="komix_"+str(new_scene_number))
 
 	def pause_all(self):
 		#for i in range(len(self.freeChannels)):
@@ -119,8 +124,8 @@ class GameController:
 				name="None"
 			)
 		)
-		if name=="default":
-			self.current_scene = "default"
+		if self.scenario_name=="cafeteria":
+			self.current_scene = "cafeteria"
 			self.background_path="media/image/cafeteria.png"
 			self.coffee_sprites = []
 			self.current_coffee_sprite = 0
@@ -192,246 +197,249 @@ class GameController:
 					name="Sign2"
 				)
 			)
-		elif name=="1":
-			self.current_scene = "1"
-			self.background_path="media/image/komix/1.jpg"
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=286,top_pos_y=67,
-					bot_pos_x=546,bot_pos_y=366,
-					name="1 cinely", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/1 cinely.wav")
+		elif self.scenario_name=="komix":
+			if name=="komix_1" or name==None:
+				self.current_scene = "komix_1"
+				self.background_path="media/image/komix/1.jpg"
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=286,top_pos_y=67,
+						bot_pos_x=546,bot_pos_y=366,
+						name="1 cinely", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/1 cinely.wav")
+					)
 				)
-			)
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=564,top_pos_y=76,
-					bot_pos_x=747,bot_pos_y=403,
-					name="2 sklouznuti", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/2 sklouznuti.wav")
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=564,top_pos_y=76,
+						bot_pos_x=747,bot_pos_y=403,
+						name="2 sklouznuti", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/2 sklouznuti.wav")
+					)
 				)
-			)
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=294,top_pos_y=471,
-					bot_pos_x=498,bot_pos_y=727,
-					name="3 odchod", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/3 odchod.ogg")
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=294,top_pos_y=471,
+						bot_pos_x=498,bot_pos_y=727,
+						name="3 odchod", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/3 odchod.ogg")
+					)
 				)
-			)
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=636,top_pos_y=469,
-					bot_pos_x=919,bot_pos_y=688,
-					name="4 rany", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/4 rany.ogg")
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=636,top_pos_y=469,
+						bot_pos_x=919,bot_pos_y=688,
+						name="4 rany", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/4 rany.ogg")
+					)
 				)
-			)
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=1366,top_pos_y=409,
-					bot_pos_x=1623,bot_pos_y=581,
-					name="5 zahada", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/5 zahada.ogg")
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=1366,top_pos_y=409,
+						bot_pos_x=1623,bot_pos_y=581,
+						name="5 zahada", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/5 zahada.ogg")
+					)
 				)
-			)
-		elif name=="2":
-			self.current_scene = "2"
-			self.background_path="media/image/komix/2.jpg"
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=351,top_pos_y=500,
-					bot_pos_x=798,bot_pos_y=831,
-					name="6 zdeseni", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/6 zdeseni.wav")
+			elif name=="komix_2":
+				self.current_scene = "komix_2"
+				self.background_path="media/image/komix/2.jpg"
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=351,top_pos_y=500,
+						bot_pos_x=798,bot_pos_y=831,
+						name="6 zdeseni", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/6 zdeseni.wav")
+					)
 				)
-			)
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=1219,top_pos_y=684,
-					bot_pos_x=1575,bot_pos_y=949,
-					name="7 premysleni", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/7 premysleni.mp3")
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=1219,top_pos_y=684,
+						bot_pos_x=1575,bot_pos_y=949,
+						name="7 premysleni", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/7 premysleni.mp3")
+					)
 				)
-			)
-		elif name=="3":
-			self.current_scene = "3"
-			self.background_path="media/image/komix/3.jpg"
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=508,top_pos_y=155,
-					bot_pos_x=638,bot_pos_y=297,
-					name="8 zamykani", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/8 zamykani.wav")
+			elif name=="komix_3":
+				self.current_scene = "komix_3"
+				self.background_path="media/image/komix/3.jpg"
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=508,top_pos_y=155,
+						bot_pos_x=638,bot_pos_y=297,
+						name="8 zamykani", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/8 zamykani.wav")
+					)
 				)
-			)
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=824,top_pos_y=175,
-					bot_pos_x=1580,bot_pos_y=586,
-					name="9 chuze v desti", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/9 chuze v desti.wav")
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=824,top_pos_y=175,
+						bot_pos_x=1580,bot_pos_y=586,
+						name="9 chuze v desti", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/9 chuze v desti.wav")
+					)
 				)
-			)
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=845,top_pos_y=670,
-					bot_pos_x=1591,bot_pos_y=968,
-					name="10 splouch", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/10 splouch.wav")
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=845,top_pos_y=670,
+						bot_pos_x=1591,bot_pos_y=968,
+						name="10 splouch", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/10 splouch.wav")
+					)
 				)
-			)
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=1001,top_pos_y=219,
-					bot_pos_x=1418,bot_pos_y=330,
-					name="extra splouch", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/10 splouch.wav")
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=1001,top_pos_y=219,
+						bot_pos_x=1418,bot_pos_y=330,
+						name="extra splouch", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/10 splouch.wav")
+					)
 				)
-			)
-		elif name=="4":
-			self.current_scene = "4"
-			self.background_path="media/image/komix/4.jpg"
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=1005,top_pos_y=222,
-					bot_pos_x=1371,bot_pos_y=410,
-					name="11 praskani ohne", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/11 praskani ohne.wav")
+			elif name=="komix_4":
+				self.current_scene = "komix_4"
+				self.background_path="media/image/komix/4.jpg"
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=1005,top_pos_y=222,
+						bot_pos_x=1371,bot_pos_y=410,
+						name="11 praskani ohne", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/11 praskani ohne.wav")
+					)
 				)
-			)
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=340,top_pos_y=406,
-					bot_pos_x=1045,bot_pos_y=958,
-					name="12 odezva", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/12 odezva.wav")
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=340,top_pos_y=406,
+						bot_pos_x=1045,bot_pos_y=958,
+						name="12 odezva", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/12 odezva.wav")
+					)
 				)
-			)
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=1058,top_pos_y=604,
-					bot_pos_x=1567,bot_pos_y=982,
-					name="13 padlovani", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/13 padlovani.wav")
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=1058,top_pos_y=604,
+						bot_pos_x=1567,bot_pos_y=982,
+						name="13 padlovani", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/13 padlovani.wav")
+					)
 				)
-			)
-		elif name=="5":
-			self.current_scene = "5"
-			self.background_path="media/image/komix/5.jpg"
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=763,top_pos_y=343,
-					bot_pos_x=1156,bot_pos_y=456,
-					name="14 splouch", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/14 splouch.wav")
+			elif name=="komix_5":
+				self.current_scene = "komix_5"
+				self.background_path="media/image/komix/5.jpg"
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=763,top_pos_y=343,
+						bot_pos_x=1156,bot_pos_y=456,
+						name="14 splouch", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/14 splouch.wav")
+					)
 				)
-			)
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=342,top_pos_y=478,
-					bot_pos_x=723,bot_pos_y=730,
-					name="15 leknuti", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/15 leknuti.wav")
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=342,top_pos_y=478,
+						bot_pos_x=723,bot_pos_y=730,
+						name="15 leknuti", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/15 leknuti.wav")
+					)
 				)
-			)
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=348,top_pos_y=748,
-					bot_pos_x=980,bot_pos_y=948,
-					name="16 jizda na lodi", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/16 jizda na lodi.wav")
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=348,top_pos_y=748,
+						bot_pos_x=980,bot_pos_y=948,
+						name="16 jizda na lodi", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/16 jizda na lodi.wav")
+					)
 				)
-			)
-		elif name=="6":
-			self.current_scene = "6"
-			self.background_path="media/image/komix/6.jpg"
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=939,top_pos_y=111,
-					bot_pos_x=1547,bot_pos_y=447,
-					name="17 ozvena", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/17 ozvena.wav")
+			elif name=="komix_6":
+				self.current_scene = "komix_6"
+				self.background_path="media/image/komix/6.jpg"
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=939,top_pos_y=111,
+						bot_pos_x=1547,bot_pos_y=447,
+						name="17 ozvena", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/17 ozvena.wav")
+					)
 				)
-			)
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=354,top_pos_y=452,
-					bot_pos_x=1553,bot_pos_y=752,
-					name="18 zmizeni", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/18 zmizeni.wav")
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=354,top_pos_y=452,
+						bot_pos_x=1553,bot_pos_y=752,
+						name="18 zmizeni", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/18 zmizeni.wav")
+					)
 				)
-			)
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=373,top_pos_y=764,
-					bot_pos_x=1217,bot_pos_y=935,
-					name="19 beh", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/19 beh.flac")
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=373,top_pos_y=764,
+						bot_pos_x=1217,bot_pos_y=935,
+						name="19 beh", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/19 beh.flac")
+					)
 				)
-			)
-		elif name=="7":
-			self.current_scene = "7"
-			self.background_path="media/image/komix/7.jpg"
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=379,top_pos_y=112,
-					bot_pos_x=1526,bot_pos_y=371,
-					name="21 aaaaa", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/21 aaaaa.wav")
+			elif name=="komix_7":
+				self.current_scene = "komix_7"
+				self.background_path="media/image/komix/7.jpg"
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=379,top_pos_y=112,
+						bot_pos_x=1526,bot_pos_y=371,
+						name="21 aaaaa", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/21 aaaaa.wav")
+					)
 				)
-			)
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=772,top_pos_y=624,
-					bot_pos_x=1052,bot_pos_y=956,
-					name="22 hop", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/22 hop.wav")
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=772,top_pos_y=624,
+						bot_pos_x=1052,bot_pos_y=956,
+						name="22 hop", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/22 hop.wav")
+					)
 				)
-			)
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=1147,top_pos_y=624,
-					bot_pos_x=1469,bot_pos_y=951,
-					name="23 uf", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/23 uf.wav")
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=1147,top_pos_y=624,
+						bot_pos_x=1469,bot_pos_y=951,
+						name="23 uf", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/23 uf.wav")
+					)
 				)
-			)
-		elif name=="8":
-			self.current_scene = "8"
-			self.background_path="media/image/komix/8.jpg"
-			self.registered_objects.append(
-				AreaOfInterest(
-					gc=self,
-					top_pos_x=455,top_pos_y=369,
-					bot_pos_x=1469,bot_pos_y=951,
-					name="24 rozlouceni", 
-					sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/24 rozlouceni.wav")
+			elif name=="komix_8":
+				self.current_scene = "komix_8"
+				self.background_path="media/image/komix/8.jpg"
+				self.registered_objects.append(
+					AreaOfInterest(
+						gc=self,
+						top_pos_x=455,top_pos_y=369,
+						bot_pos_x=1469,bot_pos_y=951,
+						name="24 rozlouceni", 
+						sound=SoundEffect(gc=self, volume=0.5, track="media/sounds/komix_sounds/24 rozlouceni.wav")
+					)
 				)
-			)
+			else:
+				raise Exception
 		else:
 			raise Exception
 		self.background_image = pygame.image.load(self.background_path)
