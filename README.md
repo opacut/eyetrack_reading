@@ -29,6 +29,10 @@ then install python 3.9 or lower (I'm using 3.6.8 at the moment), like here http
 and that should theoretically do it. Contact me if something doesn't work, and we can throw our hands in the air in confusion together.
 
 # Running a scenario
+You can run this in dummy mode, i.e. operated by mouse, or you can use the Eyetribe eyetracker. 
+The code is not tested on anything else, but I'm hoping it should be adaptable.
+To switch from dummy to eyetribe, change the value of `DUMMYMODE` in `constants.py` to `False`.
+
 Right now we don't have a build mechanism working, so to run, do
 `python scene.py`
 
@@ -60,3 +64,11 @@ Lastly, you should define how your scenario cycles through the scenes in the `cl
 
 After that, you're ready to switch to <your_scenario> in `scene.py`, in gc initialization:
 `gc = GameController(keyboard=keyboard, display=disp, screen=screen, eyetracker=eyetracker, scenario_name=<your_scenario>)`
+
+# Further work
+These are some additions I plan to work on on this project in the future. Feel free to open up a PR and help with any of these.
+- dynamic scenario creation from a .json file
+- start the program by offering user a choice from the scenarios available
+- package everything neatly as a python package
+- generate an executable
+- 'editor' mode where a user can upload images and create AoIs and scenarios without touching the code
