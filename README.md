@@ -1,7 +1,7 @@
 # Eyetracking interactions
 School project, exploring possibilities of creating interactive content with eye tracking using PyGaze.
 
-# run
+# Install
 `python scene.py`
 
 You will need to have [PyGaze](http://www.pygaze.org/installation/) installed.
@@ -16,7 +16,7 @@ and then use it to create a virtual environment:
 `source .venv/bin/activate`  
 Confirm with `python --version` that you have the correct interpreter set up and you can start the pygaze installation, as per the instructions above.
 
-I had some more problems with the installation, and needed to install `wheel`, `attrdict`, `gtk3-devel` and only then `psychopy`.
+I had some more problems with the installation, and needed to install `wheel`, `attrdict`, `gtk3-devel`, `gcc-c++` and only then `psychopy`.
 
 Check the forums, as there might have been new updates since I wrote this.
 
@@ -27,3 +27,36 @@ This was way more tricky than it should have been. Do yourself a favor and use p
 to install pyenv, I use https://chocolatey.org/install
 then install python 3.9 or lower (I'm using 3.6.8 at the moment), like here https://realpython.com/intro-to-pyenv/#using-pyenv-to-install-python
 and that should theoretically do it. Contact me if something doesn't work, and we can throw our hands in the air in confusion together.
+
+# Running a scenario
+Right now we don't have a build mechanism working, so to run, do
+`python scene.py`
+
+The mechanism to input a new scenario is a bit complex at the moment and requires touching the code. 
+In the future, I plan to make the app take .json files that would describe the scene.
+To describe a new scenario, you will be altering the classes.GameController.load_scene() method.
+
+To add a new scenario, add the scenario name into the list of available scenarios, like so
+
+![scenario setup](/docs/scenarios.png)
+
+A scenario is composed of a series of scenes, or "slides" that you cycle through by pressing space.
+A scene is defined by several things:
+- a name
+- path to the background image
+- a list of registered objects
+
+This list of registered objects is the main thing you have to define. Every such object is an AreaOfInterest object.
+You need to know and have a couple things in order to define this properly. An AreaOfInterest is a rectangular area that, when entered, will initiate an interaction.
+You need the x and y of the top left point of the rectangle, and the x and y of the bottom right point. 
+There is a mechanism here to find that out. Uncomment the code in these lines:  
+![debug position](/docs/debug_position.png)
+And you'll be able to see the position of the cursor when running the app. 
+
+Next, give each interaction a name.
+And a SoundEffect. You can also see in the cafeteria scenario a way of adding animations, but it's a bit clunky at the moment.
+
+Lastly, you should define how your scenario cycles through the scenes in the `classes.GameController.next_scene()` method.
+
+After that, you're ready to switch to <your_scenario> in `scene.py`, in gc initialization:
+`gc = GameController(keyboard=keyboard, display=disp, screen=screen, eyetracker=eyetracker, scenario_name=<your_scenario>)`
